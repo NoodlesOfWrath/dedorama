@@ -1,0 +1,45 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+.App-main {
+  padding: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  /* Adjust the number of columns as needed */
+  grid-gap: 20px;
+  /* Adjust the gap between grid items */
+}
+
+.grid-item {
+  background-color: #ddd;
+  padding: 20px;
+  text-align: center;
+}
+
+.dot {
+  height: 50px;
+  width: 50px;
+  background-color: #2587bc98;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  /* Centers horizontally */
+  align-items: center;
+  /* Centers vertically */
+  height: 10vh;
+  /* This sets the container to the full viewport height */
+}
