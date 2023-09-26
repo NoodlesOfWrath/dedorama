@@ -38,16 +38,19 @@ function App() {
         </select>
       </div>
       <div className="grid-container">
-        {sizes.map((size, index) => (
-          <div key={index} className="center">
+        {sizes.slice(0, 31).map((size) => (
+          <div className="center">
             <span
               className="dot"
-              style={{ height: (size / 1) + 'px', width: (size / 1) + 'px' }} // todo: make the biggest one 100px and adjust the rest accordingly
+              style={{
+                height: (size / Math.max(...sizes)) * 60 + 'px',
+                width: (size / Math.max(...sizes)) * 60 + 'px'
+              }}
             ></span>
           </div>
         ))}
       </div>
-    </div>
+    </div >
   );
 }
 
