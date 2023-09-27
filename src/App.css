@@ -32,6 +32,7 @@
   background-color: #2587bc98;
   border-radius: 50%;
   display: inline-block;
+  position: absolute;
 }
 
 .center {

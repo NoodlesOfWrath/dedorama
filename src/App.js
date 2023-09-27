@@ -38,7 +38,7 @@ function App() {
         </select>
       </div>
       <div className="grid-container">
-        {sizes.slice(0, 31).map((size) => (
+        {sizes.slice(0, 31).map((size, index) => (
           <div className="center">
             <span
               className="dot"
@@ -47,6 +47,7 @@ function App() {
                 width: (size / Math.max(...sizes)) * 60 + 'px'
               }}
             ></span>
+            <h1>{index + 1}</h1>
           </div>
         ))}
       </div>
