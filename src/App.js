@@ -96,15 +96,15 @@ function App() {
         <h3>{usedDate.toLocaleString('default', { month: 'long' })}</h3>
       </div>
       <div className="grid-container">
-        {sizes.slice(startDateIndex, endDateIndex + 1 /*not inclusive*/).map((size, index) => (
+        {sizes.slice(startDateIndex - usedFirstDayofMonth, endDateIndex + 1 /*not inclusive*/).map((size, index) => (
           <div className="center">
             <div className="dotText">
-              {index + 1}</div>
+              {(index < usedFirstDayofMonth) ? '' : index - usedFirstDayofMonth + 1}</div>
             <span
               className="dot"
               style={{
-                height: (size / Math.max(...sizes)) * 60 + 'px',
-                width: (size / Math.max(...sizes)) * 60 + 'px',
+                height: (index < usedFirstDayofMonth) ? 0 : ((size / Math.max(...sizes)) * 60 + 'px'),
+                width: (index < usedFirstDayofMonth) ? 0 : ((size / Math.max(...sizes)) * 60 + 'px'),
                 zIndex: -1
               }}
             ></span>
