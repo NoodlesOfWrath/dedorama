@@ -35,6 +35,13 @@
   position: absolute;
 }
 
+.dotText {
+  color: rgb(0, 0, 0);
+  font-size: 20px;
+  font-weight: bold;
+  position: absolute;
+}
+
 .center {
   display: flex;
   justify-content: center;
