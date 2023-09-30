@@ -13,6 +13,8 @@ function App() {
   // get the start day of the month as an int (0 - 6)
   const [usedFirstDayofMonth, setusedFirstDayofMonth] = useState(0);
 
+  let notFullMonth = false;
+
   const handleCsvDataChange = (data) => {
     setCsvData(data);
   };
@@ -24,9 +26,9 @@ function App() {
   function setInitialDate() {
     if (dates.length > 0) {
       setUsedDate(new Date(dates[0]));
+      setstartDateIndex(usedDate.getDate());
       setendDateIndex(getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth()));
-      console.log("endDateIndex: " + endDateIndex);
-      console.log("usedDate:  " + usedDate);
+      setusedFirstDayofMonth(getFirstDayOfWeek(usedDate.getFullYear(), usedDate.getMonth()) + usedDate.getDate());
     }
     else {
       console.log("dates len" + dates.length);
@@ -49,7 +51,6 @@ function App() {
 
   function getDaysInMonth(year, month) {
     const lastDayOfMonth = new Date(year, month + 1, 0);
-    console.log("lastDayOfMonth: " + lastDayOfMonth.getDate());
     return lastDayOfMonth.getDate();
   }
   function getFirstDayOfWeek(year, month) {
@@ -64,14 +65,18 @@ function App() {
   const nextMonth = () => {
     if (startDateIndex === 0) {
       setInitialDate();
+      notFullMonth = true;
     }
-    console.log("next function called");
+    else {
+      notFullMonth = false;
+    }
     setstartDateIndex(endDateIndex + 1);
     setUsedDate(new Date(usedDate.getFullYear(), usedDate.getMonth() + 1, 1));
     setendDateIndex(endDateIndex + getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth())); // get the length of the next month and add it to the end index
     setusedFirstDayofMonth(getFirstDayOfWeek(usedDate.getFullYear(), usedDate.getMonth()));
-    console.log("startDateIndex: " + startDateIndex + "endDateIndex: " + endDateIndex);
-    console.log(usedFirstDayofMonth);
+    if (notFullMonth) {
+      setusedFirstDayofMonth(usedFirstDayofMonth + dates[0].getDate())
+    }
   }
 
   // function to go to the previous month
@@ -80,12 +85,10 @@ function App() {
       setInitialDate();
       return;
     }
-    console.log("previous function called");
     setstartDateIndex(startDateIndex - getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth() - 1)); // get the length of the previous month
     setUsedDate(new Date(usedDate.getFullYear(), usedDate.getMonth() - 1, 1));
     setendDateIndex(endDateIndex - getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth() - 1)); // get the length of the next month and add it to the end index
     setusedFirstDayofMonth(getFirstDayOfWeek(usedDate.getFullYear(), usedDate.getMonth()));
-    console.log("startDateIndex: " + startDateIndex + "endDateIndex: " + endDateIndex);
   }
 
   return (
@@ -117,7 +120,6 @@ function App() {
             ></span>
           </div>
         ))}
-
         {sizes.slice(startDateIndex, endDateIndex + 1 /*not inclusive*/).map((size, index) => (
           <div className="center" key={[size, index]}>
             <div className="dotText">
@@ -125,8 +127,8 @@ function App() {
             <span
               className="dot"
               style={{
-                height: ((size / Math.max(...sizes)) * 60 + 'px'),
-                width: ((size / Math.max(...sizes)) * 60 + 'px'),
+                height: ((size / Math.max(...sizes.slice(startDateIndex, endDateIndex + 1 /*not inclusive*/))) * 60 + 'px'),
+                width: ((size / Math.max(...sizes.slice(startDateIndex, endDateIndex + 1 /*not inclusive*/))) * 60 + 'px'),
                 zIndex: -1
               }}
             ></span>
@@ -135,8 +137,8 @@ function App() {
 
       </div>
       <div>
-        <button onClick={previousMonth}> Previous </button>
-        <button onClick={nextMonth}> Next </button>
+        <div className="previousButton" onClick={previousMonth}>previous</div>
+        <div className="nextButton" onClick={nextMonth}>next</div>
       </div>
     </div >
   );
