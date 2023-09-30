@@ -4,7 +4,7 @@ import CSVReader from './CSVReader';
 
 function App() {
   const [csvData, setCsvData] = useState([]);
-  const [selectedColumn, setSelectedColumn] = useState('Step count');
+  const [selectedColumn, setSelectedColumn] = useState('');
   const [sizes, setSizes] = useState([]);
   const [dates, setDate] = useState(new Date());
   const [usedDate, setUsedDate] = useState(new Date());
@@ -49,6 +49,7 @@ function App() {
 
   function getDaysInMonth(year, month) {
     const lastDayOfMonth = new Date(year, month + 1, 0);
+    console.log("lastDayOfMonth: " + lastDayOfMonth.getDate());
     return lastDayOfMonth.getDate();
   }
   function getFirstDayOfWeek(year, month) {
@@ -56,26 +57,33 @@ function App() {
     return firstDayOfMonth.getDay();
   }
 
+  // function to go to the next month
+  // there is a problem with this function
+  // 
+
   const nextMonth = () => {
     if (startDateIndex === 0) {
       setInitialDate();
     }
     console.log("next function called");
-    setstartDateIndex(startDateIndex + getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth())); // get the length of the previous month
+    setstartDateIndex(endDateIndex + 1);
     setUsedDate(new Date(usedDate.getFullYear(), usedDate.getMonth() + 1, 1));
     setendDateIndex(endDateIndex + getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth())); // get the length of the next month and add it to the end index
     setusedFirstDayofMonth(getFirstDayOfWeek(usedDate.getFullYear(), usedDate.getMonth()));
     console.log("startDateIndex: " + startDateIndex + "endDateIndex: " + endDateIndex);
+    console.log(usedFirstDayofMonth);
   }
 
+  // function to go to the previous month
   const previousMonth = () => {
     if (startDateIndex === 0) {
+      setInitialDate();
       return;
     }
-    console.log("next function called");
-    setstartDateIndex(startDateIndex - getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth())); // get the length of the previous month
+    console.log("previous function called");
+    setstartDateIndex(startDateIndex - getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth() - 1)); // get the length of the previous month
     setUsedDate(new Date(usedDate.getFullYear(), usedDate.getMonth() - 1, 1));
-    setendDateIndex(endDateIndex - getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth())); // get the length of the next month and add it to the end index
+    setendDateIndex(endDateIndex - getDaysInMonth(usedDate.getFullYear(), usedDate.getMonth() - 1)); // get the length of the next month and add it to the end index
     setusedFirstDayofMonth(getFirstDayOfWeek(usedDate.getFullYear(), usedDate.getMonth()));
     console.log("startDateIndex: " + startDateIndex + "endDateIndex: " + endDateIndex);
   }
@@ -96,20 +104,35 @@ function App() {
         <h3>{usedDate.toLocaleString('default', { month: 'long' })}</h3>
       </div>
       <div className="grid-container">
-        {sizes.slice(startDateIndex - usedFirstDayofMonth, endDateIndex + 1 /*not inclusive*/).map((size, index) => (
+        {[...Array(usedFirstDayofMonth).keys()].map((index) => ( // add empty divs to the beginning of the array to make the calendar start on the correct day
           <div className="center">
-            <div className="dotText">
-              {(index < usedFirstDayofMonth) ? '' : index - usedFirstDayofMonth + 1}</div>
+            <div className="dotText"></div>
             <span
               className="dot"
               style={{
-                height: (index < usedFirstDayofMonth) ? 0 : ((size / Math.max(...sizes)) * 60 + 'px'),
-                width: (index < usedFirstDayofMonth) ? 0 : ((size / Math.max(...sizes)) * 60 + 'px'),
+                height: 0,
+                width: 60,
                 zIndex: -1
               }}
             ></span>
           </div>
         ))}
+
+        {sizes.slice(startDateIndex, endDateIndex + 1 /*not inclusive*/).map((size, index) => (
+          <div className="center" key={[size, index]}>
+            <div className="dotText">
+              {index + 1}</div>
+            <span
+              className="dot"
+              style={{
+                height: ((size / Math.max(...sizes)) * 60 + 'px'),
+                width: ((size / Math.max(...sizes)) * 60 + 'px'),
+                zIndex: -1
+              }}
+            ></span>
+          </div>
+        ))}
+
       </div>
       <div>
         <button onClick={previousMonth}> Previous </button>
