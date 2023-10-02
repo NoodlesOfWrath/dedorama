@@ -47,26 +47,29 @@ function App() {
     usedDate.setMonth(usedDate.getMonth() - 1);
   }, [csvData, selectedColumn]);
 
-  function getFirstDayOfWeek(year, month) {
+  function getFirstDayOfMonth(year, month) {
     const firstDayOfMonth = new Date(year, month, 1);
-    return firstDayOfMonth.getDay();
+    console.log("first day of " + firstDayOfMonth.toLocaleString('default', { month: 'long' }) + " " + firstDayOfMonth.getFullYear() + "is" + firstDayOfMonth.getDay());
+    return firstDayOfMonth.getDay(); //zero indexed
   }
 
   const nextMonth = () => {
-    setUsedDate(new Date(usedDate.getFullYear(), usedDate.getMonth() + 1, 1));
-    setusedFirstDayofMonth(getFirstDayOfWeek(usedDate.getFullYear(), usedDate.getMonth()));
+    let [month, year] = [usedDate.getMonth(), usedDate.getFullYear()];
+    setUsedDate(new Date(year, month + 1, 1));
+    setusedFirstDayofMonth(getFirstDayOfMonth(year, month + 1));
+    console.log("first day of " + usedDate.toLocaleString('default', { month: 'long' }) + " " + usedDate.getFullYear());
   }
 
   // function to go to the previous month
   const previousMonth = () => {
-    setUsedDate(new Date(usedDate.getFullYear(), usedDate.getMonth() - 1, 1));
-    setusedFirstDayofMonth(getFirstDayOfWeek(usedDate.getFullYear(), usedDate.getMonth()));
+    let [month, year] = [usedDate.getMonth(), usedDate.getFullYear()];
+    setUsedDate(new Date(year, month - 1, 1));
+    setusedFirstDayofMonth(getFirstDayOfMonth(year, month - 1));
   }
 
-  const getSizesByMonth = (year, month) => {
-    //const datesToBeIncluded = dates.filter((date) => date.getMonth() === month);
-    let datesToBeIncluded = [...Array(32).keys()].map((day) => new Date(year, month, day));
-    datesToBeIncluded = datesToBeIncluded.filter((date) => date.getMonth() === month);
+  const getSizesByMonth = () => {
+    let datesToBeIncluded = [...Array(32).keys()].map((day) => new Date(usedDate.getFullYear(), usedDate.getMonth(), day));
+    datesToBeIncluded = datesToBeIncluded.filter((date) => date.getMonth() === usedDate.getMonth());
     const unFiliteredMonthSizes = datesToBeIncluded.map((date) => dateSizeDict[date]);
     // filter out undefined values
     const monthSizes = unFiliteredMonthSizes.filter((value) => value !== undefined);
@@ -75,11 +78,11 @@ function App() {
 
   const getSizeByDay = (day) => {
     const fullDate = new Date(usedDate.getFullYear(), usedDate.getMonth(), day);
-    let size = dateSizeDict[fullDate];
-    if (size === undefined || fullDate.getMonth() !== usedDate.getMonth()) {
+    let newSize = dateSizeDict[fullDate];
+    if (newSize === undefined || isNaN(newSize) || newSize === 0 || newSize === null || fullDate.getMonth() !== usedDate.getMonth()) {
       return 0;
     }
-    return size;
+    return newSize
   }
 
   return (
@@ -95,7 +98,7 @@ function App() {
               </option>
             ))}
         </select>
-        <h3>{usedDate.toLocaleString('default', { month: 'long' })}</h3>
+        <h3>{usedDate.toLocaleString('default', { month: 'long' }) + " " + usedDate.getFullYear()}</h3>
       </div>
       <div className="grid-container">
         {[...Array(usedFirstDayofMonth).keys()].map((index) => ( // add empty divs to the beginning of the array to make the calendar start on the correct day
@@ -114,12 +117,12 @@ function App() {
         {[...Array(32).keys()].map((day) => ( // add empty divs to the beginning of the array to make the calendar start on the correct day
           <div className="center">
             <div className="dotText">
-              {(getSizeByDay(day + 1) != 0) ? day + 1 : ''}</div>
+              {(getSizeByDay(day + 1) !== 0) ? day + 1 : ''}</div>
             <span
               className="dot"
               style={{
-                height: getSizeByDay(day + 1) / Math.max(...getSizesByMonth(usedDate.getFullYear(), usedDate.getMonth())) * 60 + 'px',
-                width: getSizeByDay(day + 1) / Math.max(...getSizesByMonth(usedDate.getFullYear(), usedDate.getMonth())) * 60 + 'px',
+                height: (getSizeByDay(day + 1) / Math.max(...getSizesByMonth(usedDate.getFullYear(), usedDate.getMonth()))) * 60 + 'px',
+                width: (getSizeByDay(day + 1) / Math.max(...getSizesByMonth())) * 60 + 'px',
                 zIndex: -1
               }}
             ></span>
