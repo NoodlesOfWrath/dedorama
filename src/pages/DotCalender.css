@@ -1,0 +1,98 @@
+.App {
+    text-align: center;
+}
+
+.App-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+}
+
+.App-main {
+    padding: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    /* Adjust the number of columns as needed */
+    grid-gap: 20px;
+    /* Adjust the gap between grid items */
+}
+
+.grid-item {
+    background-color: #ddd;
+    padding: 20px;
+    text-align: center;
+}
+
+.dot {
+    height: 50px;
+    width: 50px;
+    background: radial-gradient(rgba(232, 71, 71, 0.684), #ff0000ca);
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+}
+
+.dotText {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+}
+
+.nextButton {
+    background-color: #5d9af7;
+    border: 20px;
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 4px 2px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.nextButton:hover {
+    background-color: #4f84d2;
+}
+
+.previousButton {
+    background-color: #5d9af7;
+    border: 20px;
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 4px 2px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.previousButton:hover {
+    background-color: #4f84d2;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    /* Centers horizontally */
+    align-items: center;
+    /* Centers vertically */
+    height: 10vh;
+    /* This sets the container to the full viewport height */
+}
+
+.centeredHeader {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}

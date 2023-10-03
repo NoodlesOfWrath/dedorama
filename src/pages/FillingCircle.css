@@ -1,0 +1,21 @@
+.center {
+    display: flex;
+    justify-content: center;
+    /* Centers horizontally */
+    align-items: center;
+    /* Centers vertically */
+    height: 10vh;
+    /* This sets the container to the full viewport height */
+}
+
+.circleOutline {
+    border: 20px solid rgb(0, 0, 0);
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0);
+    height: 300px;
+    width: 300px;
+    position: relative;
+    overflow: hidden;
+    z-index: -1;
+    --webkit-mask-border: conic-gradient(rgba(0, 0, 0) 0deg, rgb(0, 0, 0) 65deg, rgb(255, 255, 255) 70deg);
+}
