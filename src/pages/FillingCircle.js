@@ -5,31 +5,52 @@ import CSVReader from '../CSVReader';
 function FillingCircle() {
     const [csvData, setCsvData] = useState([]);
     const [selectedColumn, setSelectedColumn] = useState('');
+    const [selectedColumn2, setSelectedColumn2] = useState('');
     const [sizes, setSizes] = useState([]);
-    const [dates, setDates] = useState([]);
-    const [usedDate, setUsedDate] = useState(new Date());
-    // get the start day of the month as an int (0 - 6)
-    const [usedFirstDayofMonth, setusedFirstDayofMonth] = useState(0);
-    const [dateSizeDict, setdateSizeDict] = useState({}); // dict of dates and sizes
+    const [sizeMean, setSizeMean] = useState(0);
+    const [normalizedSizes, setNormalizedSizes] = useState([]);
+    const [sizes2, setSizes2] = useState([]);
+    const [sizeMean2, setSizeMean2] = useState(0);
+    const [normalizedSizes2, setNormalizedSizes2] = useState([]);
     const [objectIndex, setObjectIndex] = useState(0);
+    const averageRotation = 360;
 
     const handleCsvDataChange = (data) => {
         setCsvData(data);
     };
 
-    const handleColumnSelect = (e) => {
+    const handleColumn1Select = (e) => {
         setSelectedColumn(e.target.value);
+    };
+
+    const handleColumn2Select = (e) => {
+        setSelectedColumn2(e.target.value);
     };
 
     useEffect(() => {
         // Use the map function to extract the selected column values
-        const extractedSizes = csvData.map((row) => parseFloat(row[selectedColumn]));
+        let extractedSizes1 = csvData.map((row) => parseFloat(row[selectedColumn]));
+        let extractedSizes2 = csvData.map((row) => parseFloat(row[selectedColumn2]));
 
-        // Filter out NaN values (non-numeric) and set the sizes array
-        setSizes(extractedSizes.filter((value) => !isNaN(value)));
+        // Convert any Falsey to 0
+        extractedSizes1 = extractedSizes1.map((value) => value = value || 0);
+        setSizes(extractedSizes1);
+        extractedSizes2 = extractedSizes2.map((value) => value = value || 0);
+        setSizes2(extractedSizes2);
 
-        usedDate.setMonth(usedDate.getMonth() - 1);
-    }, [csvData, selectedColumn]);
+        console.log(extractedSizes1, extractedSizes2);
+
+        // Calculate the mean of the sizes
+        const newSizeMean = extractedSizes1.reduce((a, b) => a + b, 0) / extractedSizes1.length;
+        setSizeMean(newSizeMean);
+        const newSizeMean2 = extractedSizes2.reduce((a, b) => a + b, 0) / extractedSizes2.length;
+        setSizeMean2(newSizeMean2);
+
+        console.log(newSizeMean, newSizeMean2);
+        // Calculate the normalized sizes
+        setNormalizedSizes(extractedSizes1.map((value) => value / newSizeMean));
+        setNormalizedSizes2(extractedSizes2.map((value) => value / newSizeMean2));
+    }, [csvData, selectedColumn, selectedColumn2]);
 
     const nextObject = () => {
         setObjectIndex(objectIndex + 1);
@@ -46,7 +67,15 @@ function FillingCircle() {
             <div>
                 <div className='centeredHeader'>Select a Column:</div>
                 <div className='center'>
-                    <select value={selectedColumn} onChange={handleColumnSelect}>
+                    <select value={selectedColumn} onChange={handleColumn1Select}>
+                        {csvData[0] &&
+                            Object.keys(csvData[0]).map((header) => (
+                                <option key={header} value={header}>
+                                    {header}
+                                </option>
+                            ))}
+                    </select>
+                    <select value={selectedColumn2} onChange={handleColumn2Select}>
                         {csvData[0] &&
                             Object.keys(csvData[0]).map((header) => (
                                 <option key={header} value={header}>
@@ -56,8 +85,30 @@ function FillingCircle() {
                     </select>
                 </div>
             </div>
-            <div className='circleOutline'> </div>
-            <div className='masked-border'></div>
+            <div className='centeredHeader'>{objectIndex + 1}</div>
+            <div style={{ display: 'inline-block', height: '150px' }}></div>
+            <div className='circleContainer'>
+                <div
+                    className='circleOutline1'
+                    style={{
+                        WebkitMaskImage: 'conic-gradient(rgba(0, 0, 0, 1) 0deg, rgb(0, 0, 0, 1) ' + Math.max((normalizedSizes[objectIndex] * averageRotation) - 5, 0) +
+                            'deg, rgb(255, 255, 255, 0)' + normalizedSizes[objectIndex] * averageRotation + 'deg)',
+                        maskImage: 'conic-gradient(rgba(0, 0, 0, 1) 0deg, rgb(0, 0, 0, 1) ' + Math.max((normalizedSizes[objectIndex] * averageRotation) - 5, 0) +
+                            'deg, rgb(255, 255, 255, 0) ' + normalizedSizes[objectIndex] * averageRotation + 'deg)',
+                    }}>
+                </div>
+                <div
+                    className='circleOutline2'
+                    style={{
+                        WebkitMaskImage: 'conic-gradient(rgba(0, 0, 0, 1) 0deg, rgb(0, 0, 0, 1) ' + Math.max((normalizedSizes2[objectIndex] * averageRotation) - 5, 0) +
+                            'deg, rgb(255, 255, 255, 0)' + normalizedSizes2[objectIndex] * averageRotation + 'deg)',
+                        maskImage: 'conic-gradient(rgba(0, 0, 0, 1) 0deg, rgb(0, 0, 0, 1) ' + Math.max((normalizedSizes2[objectIndex] * averageRotation) - 5, 0) +
+                            'deg, rgb(255, 255, 255, 0) ' + normalizedSizes2[objectIndex] * averageRotation + 'deg)',
+                    }}>
+                </div>
+                <div className='circleText'>{Math.round(sizes[objectIndex])}</div>
+                <div className='circleText'>{Math.round(sizes2[objectIndex])}</div>
+            </div>
             <div>
                 <div className='center'>
                     <div className="previousButton" onClick={previousObject}>previous</div>

@@ -8,14 +8,52 @@
     /* This sets the container to the full viewport height */
 }
 
-.circleOutline {
-    border: 20px solid rgb(0, 0, 0);
+.circleContainer {
+    width: 400px;
+    height: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.circleOutline1 {
+    border: 20px solid rgba(0, 140, 195, 0.5);
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0);
     height: 300px;
     width: 300px;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%, -50px);
+    transform: translate(-50%, -50px);
+}
+
+.circleOutline2 {
+    border: 20px solid rgba(204, 0, 0, 0.5);
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0);
+    height: 250px;
+    width: 250px;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 50%;
+    top: 50%;
+    -ms-transform: translate(-50%, -50px);
+    transform: translate(-50%, -25px);
+}
+
+.circleText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: rgb(0, 0, 0);
+    text-shadow: 0px 0px 2px rgb(128, 128, 128);
+    font-weight: bold;
+    mask: unset;
     position: relative;
-    overflow: hidden;
-    z-index: -1;
-    --webkit-mask-border: conic-gradient(rgba(0, 0, 0) 0deg, rgb(0, 0, 0) 65deg, rgb(255, 255, 255) 70deg);
 }
