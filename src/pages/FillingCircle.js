@@ -107,7 +107,7 @@ function FillingCircle() {
                     }}>
                 </div>
                 <div className='circleText'>{Math.round(sizes[objectIndex])}</div>
-                <div className='circleText'>{Math.round(sizes2[objectIndex])}</div>
+                <div className='circleText2'>{Math.round(sizes2[objectIndex])}</div>
             </div>
             <div>
                 <div className='center'>
