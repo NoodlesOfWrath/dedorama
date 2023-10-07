@@ -106,6 +106,7 @@ function FillingCircle() {
                             'deg, rgb(255, 255, 255, 0) ' + normalizedSizes2[objectIndex] * averageRotation + 'deg)',
                     }}>
                 </div>
+                <div style={{ height: 20 }}></div>
                 <div className='circleText'>{Math.round(sizes[objectIndex])}</div>
                 <div className='circleText2'>{Math.round(sizes2[objectIndex])}</div>
             </div>
