@@ -12,72 +12,23 @@
   padding: 20px;
 }
 
-.grid-container {
+.images-grid-container {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   /* Adjust the number of columns as needed */
   grid-gap: 20px;
   /* Adjust the gap between grid items */
 }
 
-.grid-item {
-  background-color: #ddd;
+.grid-image {
+  flex: 1;
+  width: 50%;
+  height: 50%;
+  background-color: #00000000;
+  background-size: 100%;
+  background-repeat: no-repeat;
   padding: 20px;
   text-align: center;
-}
-
-.dot {
-  height: 50px;
-  width: 50px;
-  background: radial-gradient(rgba(232, 71, 71, 0.684), #ff0000ca);
-  border-radius: 50%;
-  display: inline-block;
-  position: absolute;
-}
-
-.dotText {
-  color: rgb(0, 0, 0);
-  font-size: 20px;
-  font-weight: bold;
-  position: absolute;
-}
-
-.nextButton {
-  background-color: #5d9af7;
-  border: 20px;
-  border-radius: 10px;
-  color: rgb(0, 0, 0);
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: bold;
-  margin: 4px 2px;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.nextButton:hover {
-  background-color: #4f84d2;
-}
-
-.previousButton {
-  background-color: #5d9af7;
-  border: 20px;
-  border-radius: 10px;
-  color: rgb(0, 0, 0);
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: bold;
-  margin: 4px 2px;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.previousButton:hover {
-  background-color: #4f84d2;
 }
 
 .center {
