@@ -70,22 +70,26 @@ function BubbleChart() {
                 </div>
             </div>
             <div>
-                {normalizedSizes.map((size, index) => (
-                    <span>
-                        <span
-                            className="dot"
-                            style={{
-                                height: size * 60 + 'px',
-                                width: size * 60 + 'px',
-                                zIndex: -1
-                            }}
-                        >
-                            <div className="dotText"
-                                style={{ fontSize: size * 10 }}>
-                                {names[index]}</div>
+                <div className='PinContainer'>
+                    {normalizedSizes.map((size, index) => (
+                        <span>
+                            <span
+                                className="dot"
+                                style={{
+                                    height: size * 60 + 'px',
+                                    width: size * 60 + 'px',
+                                    zIndex: -1
+                                }}
+                            >
+                                <div className='center'>
+                                    <div className="dotText"
+                                        style={{ fontSize: size * 8 }}>
+                                        {names[index]}</div>
+                                </div>
+                            </span>
                         </span>
-                    </span>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );

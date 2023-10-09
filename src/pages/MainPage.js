@@ -16,6 +16,12 @@ function MainPage() {
                 src={new URL('https://i.imgur.com/TXOobYM.png')}
                 alt='Filling Circle'
             /></a>
+            <a href="http://localhost:3000/BubbleChart"><img
+                style={{ flex: 1, width: '50%' }}
+                resizeMode='contain'
+                src={new URL('https://i.imgur.com/9w2jK3O.png')}
+                alt='Filling Circle'
+            /></a>
         </div>
     )
 }
