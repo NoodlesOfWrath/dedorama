@@ -1,0 +1,17 @@
+.dot {
+    height: 50px;
+    width: 50px;
+    background: radial-gradient(rgba(232, 71, 71, 0.684), #ff0000ca);
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+}
+
+.dotText {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+    text-align: center;
+    top: 25%;
+}
